@@ -49,6 +49,11 @@ var generateRandomBuffer = (len) => {
 var preformatMakeCredReq = (makeCredReq) => {
     makeCredReq.challenge = base64url.decode(makeCredReq.challenge);
     makeCredReq.user.id = base64url.decode(makeCredReq.user.id);
+    makeCredReq.extensions = {
+        uvi: true,
+        uvm: true,
+        credProps: true
+    }
 
     return makeCredReq
 }

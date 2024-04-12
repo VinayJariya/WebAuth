@@ -51,10 +51,16 @@ $('#register').submit(function(event) {
     getMakeCredentialsChallenge({username, name})
         .then((response) => {
             let publicKey = preformatMakeCredReq(response);
-            return navigator.credentials.create({ publicKey })
+            console.log("Public Key" , publicKey)
+            return navigator.credentials.create({ publicKey }).then((publicKeyCred) => {
+                console.log("Extensions" , publicKeyCred.getClientExtensionResults())
+                console.log("Auth Data", publicKeyCred.response.getAuthenticatorData())
+                return  publicKey
+            })
         })
         .then((response) => {
             let makeCredResponse = publicKeyCredentialToJSON(response);
+            console.log("Response" ,makeCredResponse)
             return sendWebAuthnResponse(makeCredResponse)
         })
         .then((response) => {
