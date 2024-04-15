@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
     <link rel="stylesheet" href="css/milligram.min.css">
     <style>
-        html, body, .container, .row {
+        html,
+        body,
+        .container,
+        .row {
             height: 100%;
         }
 
@@ -13,8 +17,9 @@
             padding: 15px;
         }
 
-        .formcontainer form, .formcontainer fieldset{
-            margin:0;
+        .formcontainer form,
+        .formcontainer fieldset {
+            margin: 0;
         }
 
         .secretcontainer {
@@ -22,11 +27,13 @@
             padding: 15px;
         }
 
-        #registerContainer, #mainContainer {
+        #registerContainer,
+        #mainContainer {
             display: none;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="row row-center">
@@ -35,13 +42,14 @@
                 <div class="formcontainer register">
                     <h3>Register page</h3>
                     <form id="register">
-                      <fieldset>
-                        <label for="name">name</label>
-                        <input type="text" name="name">
-                        <label for="username">username</label>
-                        <input type="text" name="username">
-                        <input class="button-primary" type="submit" value="Register">
-                      </fieldset>
+                        <fieldset>
+                            <label for="name">name</label>
+                            <input type="text" name="name">
+                            <label for="username">username</label>
+                            <input type="text" name="username">
+                            <input class="button-primary" type="submit"
+                                value="Register using fingerprint/faceId/touchId" id="registerButton">
+                        </fieldset>
                     </form>
 
                     <a href="#" id="toLogin">Already registered? Login page</a>
@@ -52,11 +60,11 @@
                 <div class="formcontainer login">
                     <h3>Login page</h3>
                     <form id="login">
-                      <fieldset>
-                        <label for="nameField">username</label>
-                        <input type="text" name="username">
-                        <input class="button-primary" type="submit" value="Login">
-                      </fieldset>
+                        <fieldset>
+                            <label for="nameField">username</label>
+                            <input type="text" name="username">
+                            <input class="button-primary" type="submit" value="Login">
+                        </fieldset>
                     </form>
 
                     <a href="#" id="toRegistration">Not registered yet? Registration</a>
@@ -84,11 +92,19 @@
     <script>
         $(document).ready(() => {
             checkIfLoggedIn()
-            .then((response) => {
-                if(response)
-                    return loadMainContainer()
-            })
+                .then((response) => {
+                    if (response)
+                        return loadMainContainer()
+                })
+            const agent = checkUserAgent()
+            if (agent) {
+                var buttonText = `Register using ${agent}`
+                console.log(buttonText)
+                $('#registerButton').prop('value', buttonText)
+            }
+
         })
     </script>
 </body>
+
 </html>

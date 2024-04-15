@@ -44,6 +44,20 @@ let checkIfLoggedIn = () => {
         })
 }
 
+let checkUserAgent = () => {
+    if (navigator.userAgent.includes("iPhone") && !navigator.userAgent.includes("Macintosh")) {
+        // iOS device, check for Face ID availability
+        console.log("Face ID is available.");
+        return "FaceId"
+    } else if (navigator.userAgent.includes("Macintosh")) {
+        console.log("Touch ID is available.");
+        return "Touch Id"
+        // macOS device, check for Touch ID availability
+    } else {
+        return
+    }
+}
+
 $('#logoutButton').click(() => {
     fetch('/logout', {credentials: 'include'});
 

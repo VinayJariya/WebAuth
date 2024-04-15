@@ -52,15 +52,12 @@ $('#register').submit(function(event) {
         .then((response) => {
             let publicKey = preformatMakeCredReq(response);
             console.log("Public Key" , publicKey)
-            return navigator.credentials.create({ publicKey }).then((publicKeyCred) => {
-                console.log("Extensions" , publicKeyCred.getClientExtensionResults())
-                console.log("Auth Data", publicKeyCred.response.getAuthenticatorData())
-                return  publicKey
-            })
+            return navigator.credentials.create({ publicKey })
         })
         .then((response) => {
+            console.log("Response" ,response.authenticator)
             let makeCredResponse = publicKeyCredentialToJSON(response);
-            console.log("Response" ,makeCredResponse)
+            
             return sendWebAuthnResponse(makeCredResponse)
         })
         .then((response) => {
