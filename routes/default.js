@@ -2,6 +2,7 @@ const express  = require('express');
 const utils    = require('../utils');
 const router   = express.Router();
 const database = require('./db');
+const deviceDetect = require('device-detector-js')
 
 /* Returns if user is logged in */
 router.get('/isLoggedIn', (request, response) => {
@@ -24,6 +25,11 @@ router.get('/logout', (request, response) => {
     response.json({
         'status': 'ok'
     })
+})
+
+router.post('/getDevice', (request, response) => {
+    const device = new deviceDetect().parse(request.body.agent)
+    response.json(device)
 })
 
 /* Returns personal info and THE SECRET INFORMATION */

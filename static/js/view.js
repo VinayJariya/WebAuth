@@ -45,17 +45,27 @@ let checkIfLoggedIn = () => {
 }
 
 let checkUserAgent = () => {
-    if (navigator.userAgent.includes("iPhone") && !navigator.userAgent.includes("Macintosh")) {
-        // iOS device, check for Face ID availability
-        console.log("Face ID is available.");
-        return "FaceId"
-    } else if (navigator.userAgent.includes("Macintosh")) {
-        console.log("Touch ID is available.");
-        return "Touch Id"
-        // macOS device, check for Touch ID availability
-    } else {
-        return
-    }
+    return fetch('/getDevice', {
+        method: 'POST', body: JSON.stringify({ agent: navigator.userAgent }), headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            alert(JSON.stringify(response))
+
+            if (navigator.userAgent.includes("iPhone") && !navigator.userAgent.includes("Macintosh")) {
+                // iOS device, check for Face ID availability
+                console.log("Face ID is available.");
+                return "FaceId"
+            } else if (navigator.userAgent.includes("Macintosh")) {
+                console.log("Touch ID is available.");
+                return "Touch Id"
+                // macOS device, check for Touch ID availability
+            } else {
+                return
+            }
+        })
 }
 
 $('#logoutButton').click(() => {

@@ -96,12 +96,13 @@
                     if (response)
                         return loadMainContainer()
                 })
-            const agent = checkUserAgent()
-            if (agent) {
-                var buttonText = `Register using ${agent}`
-                console.log(buttonText)
-                $('#registerButton').prop('value', buttonText)
-            }
+            const agent = checkUserAgent().then((agent) => {
+                if (agent) {
+                    var buttonText = `Register using ${agent}`
+                    console.log(buttonText)
+                    $('#registerButton').prop('value', buttonText)
+                }
+            })
 
         })
     </script>
