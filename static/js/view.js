@@ -44,28 +44,16 @@ let checkIfLoggedIn = () => {
         })
 }
 
-let checkUserAgent = () => {
-    // return fetch('/getDevice', {
-    //     method: 'POST', body: JSON.stringify({ agent: navigator.userAgent }), headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    // })
-    //     .then((response) => response.json())
-    //     .then((response) => {
-    //         alert(JSON.stringify(response))
+let setButtonName = () => {
+    const agent = checkUserAgent().then((agent) => {
+        if (agent) {
+            var buttonText = `Register using ${agent}`
+            $('#registerButton').prop('value', buttonText)
+        }
+    })
+}
 
-    //         if (navigator.userAgent.includes("iPhone") && !navigator.userAgent.includes("Macintosh")) {
-    //             // iOS device, check for Face ID availability
-    //             console.log("Face ID is available.");
-    //             return "FaceId"
-    //         } else if (navigator.userAgent.includes("Macintosh")) {
-    //             console.log("Touch ID is available.");
-    //             return "Touch Id"
-    //             // macOS device, check for Touch ID availability
-    //         } else {
-    //             return
-    //         }
-    //     })
+let checkUserAgent = () => {
     return navigator.permissions.query({ name: "camera" }).then((camera) => {
         console.log(camera.state)
         switch (camera.state) {
@@ -76,7 +64,11 @@ let checkUserAgent = () => {
                 console.log("Camera permission is not available.");
                 return "Touch Id"
             case "prompt":
-                return
+                return navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+                    stream.getVideoTracks().forEach((track) => {
+                        track.stop();
+                    });
+                }).finally(() => setButtonName())
             default:
                 return
         }
